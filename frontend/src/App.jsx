@@ -5,16 +5,19 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Events from './pages/Events';
 import AdminEvents from './pages/AdminEvents';
+import AdminEventAttendees from './pages/AdminEventAttendees';
 import Announcements from './pages/Announcements';
 import AdminAnnouncements from './pages/AdminAnnouncements';
+import Profile from './pages/Profile';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
+import './index.css';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
           <Navbar />
           <main className="container mx-auto p-4">
             <Routes>
@@ -22,8 +25,10 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/events" element={<PrivateRoute><Events /></PrivateRoute>} />
               <Route path="/admin/events" element={<AdminRoute><AdminEvents /></AdminRoute>} />
+              <Route path="/admin/events/:id/attendees" element={<AdminRoute><AdminEventAttendees /></AdminRoute>} />
               <Route path="/announcements" element={<PrivateRoute><Announcements /></PrivateRoute>} />
               <Route path="/admin/announcements" element={<AdminRoute><AdminAnnouncements /></AdminRoute>} />
+              <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
               <Route path="/" element={<PrivateRoute><Events /></PrivateRoute>} />
             </Routes>
           </main>

@@ -105,7 +105,7 @@ const AdminEvents = () => {
           className="w-full mb-2 p-2 border rounded"
           required
         />
-        <button type="submit" className="w-full bg-blue-500 text-white cursor-pointer p-2 rounded hover:bg-blue-600">{editingId ? 'Edit Event' : 'Create Event'}</button>
+        <button type="submit" className="w-full bg-blue-500 text-white cursor-pointer p-2 rounded hover:bg-blue-600">{editingId ? 'Update' : 'Create Event'}</button>
       </form>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {events.map(event => (

@@ -1,7 +1,22 @@
 const Event = require('../models/Event');
 
+// get events with search and sort
 const getEvents = async (req, res) => {
-  const events = await Event.find({});
+  const { search, sort } = req.query;
+  let query = {};
+  if (search) {
+    query = {
+      $or: [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ]
+    };
+  }
+  let sortOption = {};
+  if (sort === 'upcoming') sortOption = { date: 1 };
+  else if (sort === 'recent') sortOption = { date: -1 };
+
+  const events = await Event.find(query).sort(sortOption);
   return res.json(events);
 };
 
@@ -57,4 +72,34 @@ const registerForEvent = async (req, res) => {
   }
 };
 
-module.exports = { getEvents, createEvent, deleteEvent, registerForEvent, editEvent };
+//unregister
+const unregisterForEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    if (!event.registeredUsers.includes(req.user._id)) {
+      return res.status(400).json({ message: 'Not registered for this event' });
+    }
+    event.registeredUsers.pull(req.user._id); // Remove userId from array
+    await event.save();
+    res.json({ message: 'Unregistered successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to unregister', error: err.message });
+  }
+};
+
+const getEventAttendees = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id).populate('registeredUsers', 'name email');
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    return res.json(event.registeredUsers);
+  } catch (err) {
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { getEvents, createEvent, deleteEvent, registerForEvent,unregisterForEvent, editEvent ,getEventAttendees};
