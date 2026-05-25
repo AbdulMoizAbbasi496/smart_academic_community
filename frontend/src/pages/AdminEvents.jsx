@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axios';
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
@@ -13,7 +13,7 @@ const AdminEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get('/api/events');
+        const res = await api.get('/api/events');
         setEvents(res.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load events');
@@ -30,7 +30,7 @@ const AdminEvents = () => {
     if (editingId) {
       // update existing event
       try {
-        const res = await axios.put(`/api/events/${editingId}`, {
+        const res = await api.put(`/api/events/${editingId}`, {
           title,
           description,
           date,
@@ -47,7 +47,7 @@ const AdminEvents = () => {
     } else {
       // create new event
       try {
-        const res = await axios.post('/api/events', { title, description, date });
+        const res = await api.post('/api/events', { title, description, date });
         setEvents([...events, res.data]);
         setTitle('');
         setDescription('');
@@ -61,7 +61,7 @@ const AdminEvents = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/events/${id}`);
+      await api.delete(`/api/events/${id}`);
       setEvents(events.filter(event => event._id !== id));
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to delete event');

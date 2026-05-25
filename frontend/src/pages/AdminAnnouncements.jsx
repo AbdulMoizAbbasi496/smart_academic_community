@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axios';
 
 const AdminAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -14,7 +14,7 @@ const AdminAnnouncements = () => {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const res = await axios.get('/api/announcements');
+        const res = await api.get('/api/announcements');
         setAnnouncements(res.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load announcements');
@@ -36,7 +36,7 @@ const AdminAnnouncements = () => {
     e.preventDefault();
     if (editingId) {
       try {
-        const res = await axios.put(`/api/announcements/${editingId}`, {
+        const res = await api.put(`/api/announcements/${editingId}`, {
           title,
           message,
           category,
@@ -54,7 +54,7 @@ const AdminAnnouncements = () => {
       }
     } else {
       try {
-        const res = await axios.post('/api/announcements', { title, message, category });
+        const res = await api.post('/api/announcements', { title, message, category });
         setAnnouncements([res.data, ...announcements]);
         setTitle('');
         setMessage('');
@@ -70,7 +70,7 @@ const AdminAnnouncements = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/announcements/${id}`);
+      await api.delete(`/api/announcements/${id}`);
       setAnnouncements(announcements.filter(ann => ann._id !== id));
       setSuccess('Announcement deleted successfully');
       setTimeout(() => setSuccess(''), 3000);

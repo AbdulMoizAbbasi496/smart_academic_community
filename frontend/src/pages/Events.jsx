@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 import AuthContext from '../context/AuthContext';
 
 const Events = () => {
@@ -15,7 +15,7 @@ const Events = () => {
     const fetchEvents = async () => {
       try {
         const url = `/api/events?search=${search}&sort=${sort}`;
-        const res = await axios.get(url);
+        const res = await api.get(url);
         setEvents(res.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load events');
@@ -32,7 +32,7 @@ const Events = () => {
       return;
     }
     try {
-      await axios.post(`/api/events/${id}/register`);
+      await api.post(`/api/events/${id}/register`);
       setEvents(events.map(event => 
         event._id === id ? { ...event, registeredUsers: [...event.registeredUsers, user._id] } : event
       ));
@@ -47,7 +47,7 @@ const Events = () => {
     return;
   }
   try {
-    await axios.delete(`/api/events/${id}/unregister`);
+    await api.delete(`/api/events/${id}/unregister`);
     setEvents(events.map(event => 
       event._id === id ? { ...event, registeredUsers: event.registeredUsers.filter(userId => userId !== user._id) } : event
     ));

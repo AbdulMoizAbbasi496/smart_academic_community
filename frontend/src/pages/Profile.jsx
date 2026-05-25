@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../api/axios';
 import AuthContext from '../context/AuthContext';
 
 const Profile = () => {
@@ -15,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get('/api/users/events');
+        const res = await api.get('/api/users/events');
         setEvents(res.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load events');
@@ -29,7 +29,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put('/api/users/profile', { name, email, password });
+      const res = await api.put('/api/users/profile', { name, email, password });
       localStorage.setItem('user', JSON.stringify(res.data));
       setUser(res.data);
       setPassword('');

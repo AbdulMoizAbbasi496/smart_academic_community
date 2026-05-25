@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/axios';
 
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -11,7 +11,7 @@ const Announcements = () => {
     const fetchAnnouncements = async () => {
       try {
         const url = category ? `/api/announcements?category=${category}` : '/api/announcements';
-        const res = await axios.get(url);
+        const res = await api.get(url);
         setAnnouncements(res.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load announcements');

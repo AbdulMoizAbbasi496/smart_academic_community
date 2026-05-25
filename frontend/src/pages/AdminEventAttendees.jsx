@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios';
 
 const AdminEventAttendees = () => {
   const { id } = useParams();
@@ -11,7 +11,7 @@ const AdminEventAttendees = () => {
   useEffect(() => {
     const fetchAttendees = async () => {
       try {
-        const res = await axios.get(`/api/events/${id}/attendees`);
+        const res = await api.get(`/api/events/${id}/attendees`);
         setAttendees(res.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to load attendees');
