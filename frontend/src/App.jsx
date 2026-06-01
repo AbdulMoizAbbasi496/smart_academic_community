@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Events from './pages/Events';
+import Visits from './pages/Visits';
 import AdminEvents from './pages/AdminEvents';
 import AdminEventAttendees from './pages/AdminEventAttendees';
 import Announcements from './pages/Announcements';
