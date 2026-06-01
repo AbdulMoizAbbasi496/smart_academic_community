@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const Visit = require("../models/Visit");
-router.get("/api/visits", async (req, res) => {
+router.get("/visits", async (req, res) => {
   try {
     const visit = await Visit.findOneAndUpdate(
       { page: "home" },
