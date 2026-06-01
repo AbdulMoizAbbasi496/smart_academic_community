@@ -31,7 +31,7 @@ function App() {
               <Route path="/admin/announcements" element={<AdminRoute><AdminAnnouncements /></AdminRoute>} />
               <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
               <Route path="/" element={<PrivateRoute><Events /></PrivateRoute>} />
-              <Route path="/" element={<Visits />} />
+              <Route path="/visits" element={<Visits />} />
             </Routes>
           </main>
         </div>
